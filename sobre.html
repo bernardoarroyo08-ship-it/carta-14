@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ESTA CARTA ES PARA TI 💌</title>
+
+<style>
+body {
+  background:#FFD1DC;
+  font-family: Charlemagne Std,Algerian;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  height:100vh;
+  text-align:above;
+}
+
+h1 { margin-top:40px; }
+
+.sobre {
+  position: relative;
+  width: 460px;
+  height: 360px;
+  background: #FF0000;
+  margin-top:50px;
+  cursor: pointer;
+  display:none;
+}
+
+.tapa {
+  position:absolute;
+  top:0;
+  width:0;
+  height:0;
+  border-left:230px solid transparent;
+  border-right:230px solid transparent;
+  border-top:130px solid #FF7F7F;
+  transform-origin:top;
+  transition:transform 0.8s;
+}
+
+.carta {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:100%;
+  background:#FFB6C1;
+  padding:15px;
+  display:none;
+  overflow-y:auto;
+}
+
+input, button {
+  padding:10px;
+  width:280px;
+  margin:8px;
+  font-size:16px;
+}
+
+.corazon {
+  position:fixed;
+  bottom:0;
+  font-size:134px;
+  animation: flotar 9s linear forwards;
+}
+
+@keyframes flotar {
+  from {transform:translateY(0); opacity:1;}
+  to {transform:translateY(-100vh); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<h1>ESTA CARTA ES PARA TI 💌</h1>
+
+<!-- CREAR -->
+<div id="crear">
+  <input type="text" id="textoUsuario" placeholder="Escribe tu mensaje 💖">
+  <button onclick="generarLink()">Generar sobre 💌</button>
+  <p id="linkGenerado"></p>
+</div>
+
+<!-- SOBRE -->
+<div class="sobre" id="sobre" onclick="abrirSobre()">
+  <div class="tapa"></div>
+  <div class="carta">
+    <p id="mensaje"></p>
+  </div>
+</div>
+
+<audio id="musica" src="musica.mp3"></audio>
+
+<script>
+const params = new URLSearchParams(location.search);
+const mensaje = params.get("mensaje");
+
+const crear = document.getElementById("crear");
+const sobre = document.getElementById("sobre");
+const mensajeEl = document.getElementById("mensaje");
+const musica = document.getElementById("musica");
+
+if (mensaje) {
+  crear.style.display = "none";
+  sobre.style.display = "block";
+  mensajeEl.innerText = decodeURIComponent(mensaje);
+}
+
+function generarLink() {
+  const texto = document.getElementById("textoUsuario").value.trim();
+  if (!texto) return alert("Escribe un mensaje 💌");
+
+  const msg = encodeURIComponent(texto);
+  const link = location.origin + location.pathname + "?mensaje=" + msg;
+
+  document.getElementById("linkGenerado").innerHTML = `
+    <p>Copia este link y envíalo 💘</p>
+    <input value="${link}" readonly style="width:300px;">
+  `;
+}
+
+function abrirSobre() {
+  document.querySelector(".tapa").style.transform = "rotateX(180deg)";
+  document.querySelector(".carta").style.display = "block";
+
+  musica.currentTime = 0;
+  musica.play();
+
+  for (let i = 0; i < 40; i++) {
+    crearCorazon(i * 120);
+  }
+}
+
+function crearCorazon(delay) {
+  setTimeout(() => {
+    const c = document.createElement("div");
+    c.className = "corazon";
+    c.innerText = "💘";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.fontSize = 20 + Math.random() * 20 + "px";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }, delay);
+}
+</script>
+
+
+</body>
+</html>
