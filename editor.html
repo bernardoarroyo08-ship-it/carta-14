@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear carta 💌</title>
+
+  <style>
+    /* 🎨 AQUÍ CAMBIAS COLORES DESPUÉS */
+    :root {
+      --fondo: #FFD1DC;
+      --titulo: #C2185B;
+      --textarea-fondo: #FFF;
+      --textarea-borde: #FF4081;
+      --boton-fondo: #FF4081;
+      --boton-hover: #E91E63;
+      --boton-texto: #FFFFFF;
+      --link-color: #880E4F;
+    }
+
+    body {
+      background: var(--fondo);
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h2 {
+      color: var(--titulo);
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 320px;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 15px;
+      border: 2px solid var(--textarea-borde);
+      background: var(--textarea-fondo);
+      resize: none;
+      outline: none;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 16px;
+      background: var(--boton-fondo);
+      color: var(--boton-texto);
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--boton-hover);
+    }
+
+    #link {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    #link a {
+      color: var(--link-color);
+      word-break: break-all;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Escribe tu mensaje 💌</h2>
+
+  <textarea id="msg" placeholder="Escribe aquí..." rows="10"></textarea>
+
+  <button onclick="crearLink()">Generar link 💘</button>
+
+  <p id="link"></p>
+
+  <script>
+    function crearLink() {
+      let texto = document.getElementById("msg").value.trim();
+      if (!texto) {
+        alert("Escribe un mensaje primero 💌");
+        return;
+      }
+
+      let textoCodificado = encodeURIComponent(texto);
+      let url = window.location.origin + "/carta-14/index.html?mensaje=" + textoCodificado;
+
+      document.getElementById("link").innerHTML =
+        `Copia este link y envíalo:<br>
+         <a href="${url}" target="_blank">${url}</a>`;
+    }
+  </script>
+
+</body>
+</html>
